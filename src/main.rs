@@ -3,30 +3,37 @@ extern crate ini;
 extern crate dirs;
 use std::path::Path;
 extern crate clap;
-use clap::{Arg, App, SubCommand, crate_version, crate_authors, crate_description};
-
+use clap::{crate_authors, crate_description, crate_version, App, Arg, SubCommand};
 
 fn main() {
     let matches = App::new("Alternative Liferay Cloud Platform CLI (alcp)")
-                          .version(crate_version!())
-                          .author(crate_authors!())
-                          .about(crate_description!())
-                          .arg(Arg::with_name("config")
-                              .short("c")
-                              .long("config")
-                              .value_name("FILE")
-                              .help("Sets a custom config file")
-                              .takes_value(true))
-                          .arg(Arg::with_name("v")
-                              .short("v")
-                              .multiple(true)
-                              .help("Sets the level of verbosity"))
-                          .subcommand(SubCommand::with_name("delete")
-                                      .about("Deletes service(s)")
-                                      .arg(Arg::with_name("debug")
-                                          .short("d")
-                                          .help("print debug information verbosely")))
-                          .get_matches();
+        .version(crate_version!())
+        .author(crate_authors!())
+        .about(crate_description!())
+        .arg(
+            Arg::with_name("config")
+                .short("c")
+                .long("config")
+                .value_name("FILE")
+                .help("Sets a custom config file")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("v")
+                .short("v")
+                .multiple(true)
+                .help("Sets the level of verbosity"),
+        )
+        .subcommand(
+            SubCommand::with_name("delete")
+                .about("Deletes service(s)")
+                .arg(
+                    Arg::with_name("debug")
+                        .short("d")
+                        .help("print debug information verbosely"),
+                ),
+        )
+        .get_matches();
     // Gets a value for config if supplied by user, or defaults to "default.conf"
     let config = matches.value_of("config").unwrap_or("default.conf");
     println!("Value for config: {}", config);
