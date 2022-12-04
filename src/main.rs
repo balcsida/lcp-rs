@@ -1,46 +1,83 @@
-use clap::{AppSettings, Parser, Subcommand};
+use clap::{Command};
 
-#[derive(Parser)]
-#[clap(author, version, about, long_about = None)]
-#[clap(global_setting(AppSettings::PropagateVersion))]
-#[clap(global_setting(AppSettings::UseLongFormatForHelpSubcommand))]
-#[clap(global_setting(AppSettings::SubcommandRequiredElseHelp))]
-#[clap(global_setting(AppSettings::DeriveDisplayOrder))]
-#[clap(global_setting(AppSettings::DisableHelpSubcommand))]
-
-struct Cli {
-    #[clap(subcommand)]
-    command: Commands,
-}
-
-#[derive(Subcommand)]
-enum Commands {
-    /// Delete service(s)
-    Delete {
-        /// Name of the project to delete
-        #[clap(short, long)]
-        project: String,
-        /// Environment name to delete (e.g. "dev")
-        #[clap(short, long)]
-        environment: String,
-        /// Service name (e.g. "liferay")
-        #[clap(short, long)]
-        service: Option<String>,
-    },
+fn cli() -> Command {
+    Command::new("lcp")
+        .about("A fictional versioning CLI")
+        .subcommand_required(true)
+        .arg_required_else_help(true)
+        .allow_external_subcommands(true)
+        // .subcommand(
+        //     Command::new("deploy")
+        //         .about("Deploy to DXP Cloud")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("list")
+        //         .about("Show list of projects and services")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("log")
+        //         .about("Show logs of project, service or instance")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("scale")
+        //         .about("Scale a service")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("restart")
+        //         .about("Restart a service")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("shell")
+        //         .about("Open a shell to a service")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("login")
+        //         .about("Login to DXP Cloud")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("logout")
+        //         .about("Logout from DXP Cloud")
+        //         .arg_required_else_help(true),
+        // )
+        .subcommand(
+            Command::new("docs")
+                .about("Open the documentation of DXP Cloud in your browser"),
+        )
+        // .subcommand(
+        //     Command::new("remote")
+        //         .about("Configure DXP Cloud remotes")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("update")
+        //         .about("Update DXP Cloud CLI")
+        //         .arg_required_else_help(true),
+        // )
+        // .subcommand(
+        //     Command::new("version")
+        //         .about("Show current CLI version")
+        //         .arg_required_else_help(true),
+        // )
 }
 
 fn main() {
-    let cli = Cli::parse();
+    let matches = cli().get_matches();
 
-    // You can check for the existence of subcommands, and if found use their
-    // matches just as you would the top level app
-    match &cli.command {
-        Commands::Delete { project, environment, service } => {
-            println!("'alcp delete' was used");
-
-            println!("Project is: {:?}", project);
-            println!("Environment is: {:?}", environment);
-            println!("Service is: {:?}", service)
+    match matches.subcommand() {
+        Some(("docs", _sub_matches)) => {
+            println!(
+                "Docs opened on your browser."
+            );
+            open::that("https://help.liferay.com/hc/en-us/categories/360000868032").unwrap();
         }
+        _ => unreachable!(), // If all subcommands are defined above, anything else is unreachabe!()
     }
+
 }

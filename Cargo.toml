@@ -8,8 +8,14 @@ description = "An alternative DXP Cloud CLI written in Rust"
 [profile.release]
 lto = true
 codegen-units = 1
+strip = "symbols"
 
 [dependencies]
 configparser = "3"
 dirs = "4"
-clap = { version = "3", features = ["derive"] }
+clap = { version = "4", features = ["derive"] }
+reqwest = { version = "0.11", features = ["json"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+comfy-table = "6"
+open = "3"
