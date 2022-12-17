@@ -3,7 +3,7 @@ name = "alcp"
 version = "0.1.0"
 edition = "2018"
 authors = ["Dávid Balatoni <balcsida@gmail.com>"]
-description = "An alternative DXP Cloud CLI written in Rust"
+description = "Unofficial Liferay Cloud Platform CLI"
 
 [profile.release]
 lto = true
@@ -13,7 +13,7 @@ strip = "symbols"
 [dependencies]
 configparser = "3"
 dirs = "4"
-clap = { version = "4", features = ["derive"] }
+clap = { version = "4", features = ["derive", "cargo"] }
 reqwest = { version = "0.11", features = ["json"] }
 serde_json = "1"
 tokio = { version = "1", features = ["full"] }

@@ -1,4 +1,4 @@
-use clap::{Command};
+use clap::{Command, crate_description, crate_version};
 
 fn cli() -> Command {
     Command::new("lcp")
@@ -60,11 +60,10 @@ fn cli() -> Command {
         //         .about("Update DXP Cloud CLI")
         //         .arg_required_else_help(true),
         // )
-        // .subcommand(
-        //     Command::new("version")
-        //         .about("Show current CLI version")
-        //         .arg_required_else_help(true),
-        // )
+        .subcommand(
+            Command::new("version")
+                .about("Show current CLI version")
+        )
 }
 
 fn main() {
@@ -77,7 +76,20 @@ fn main() {
             );
             open::that("https://help.liferay.com/hc/en-us/categories/360000868032").unwrap();
         }
+
+        // If it matches the version subcommand, print the version from the cargo.toml file
+        // and the architecture of the binary
+        Some(("version", _sub_matches)) => {
+            println!(
+                "{} version {} ({})",
+                crate_description!(),
+                crate_version!(),
+                std::env::consts::ARCH
+            );
+        }
+
         _ => unreachable!(), // If all subcommands are defined above, anything else is unreachabe!()
+
     }
 
 }
