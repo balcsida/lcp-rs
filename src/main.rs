@@ -1,4 +1,5 @@
 use clap::{Command, crate_description, crate_version};
+mod commands;
 
 fn cli() -> Command {
     Command::new("lcp")
@@ -88,8 +89,12 @@ fn main() {
             );
         }
 
+        // If it matches the list subcommand, print the list of projects and services
+        // use the module from commands/list.rs
+        Some(("list", sub_matches)) => {
+            commands::list();
+        }
+
         _ => unreachable!(), // If all subcommands are defined above, anything else is unreachabe!()
 
     }
-
-}
